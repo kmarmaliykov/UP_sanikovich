@@ -112,19 +112,6 @@
                             </div>
                         </div>
                         <div class="panel-body msg_container_base" id="chat-base">
-                          <div class="row msg_container base_sent">
-                                <div class="col-md-2 col-xs-2 avatar">
-                                    <img src="img/avatar_current_user.jpg" class=" img-circled" width="55px" width="100%">
-                                </div>
-                                <div class="col-md-10 col-xs-10">
-                                  <span class="pull-right"><a href="#"><i class="glyphicon glyphicon-pencil"></i></a><a href="#"><i class="glyphicon glyphicon-remove"></i></a></span>
-                                    <div class="messages msg_sent">
-                                        <p color="white">Hi!</p>
-                                        <time datetime="2009-11-13T20:00">Today • 51 min ago</time>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="row msg_container base_receive">
                                 <div class="col-md-2 col-xs-2 avatar">
                                     <img src="img/avatar_user_to_talk.jpg" class="  img-circled" width="55px">
@@ -137,43 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row msg_container base_sent">
-                                <div class="col-md-2 col-xs-2 avatar">
-                                    <img src="img/avatar_current_user.jpg" class="  img-circled" width="55px">
-                                </div>
-                                <div class="col-md-10 col-xs-10">
-                                  <span class="pull-right"><a href="#"><i class="glyphicon glyphicon-pencil"></i></a><a href="#"><i class="glyphicon glyphicon-remove"></i></a></span>
-                                    <div class="messages msg_sent">
-                                        <p>Ohh...unexpected message!)<br>
-                                            I'm fine. Today seems to be the best day of my life! <br>
-                                            My wife is giving birth to my child. So excited)</p>
-                                        <time datetime="2009-11-13T20:00">Today • 49 min ago </time>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row msg_container base_receive">
-                                <div class="col-md-2 col-xs-2 avatar">
-                                    <img src="img/avatar_user_to_talk.jpg" class="  img-circled" width="55px">
-                                </div>
-                                <div class="col-md-10 col-xs-10">
-                                    <div class="messages msg_receive">
-                                        <p>Boy or a girl?)</p>
-                                        <time datetime="2015-02-27T14:05">Today • 47 min ago</time>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row msg_container base_sent">
-                              <div class="col-md-2 col-xs-2 avatar">
-                                    <img src="img/avatar_current_user.jpg" class="  img-circled" width="55px">
-                                </div>
-                                <div class="col-xs-10 col-md-10">
-                                  <span class="pull-right"><a href="#"><i class="glyphicon glyphicon-pencil"></i></a><a href="#"><i class="glyphicon glyphicon-remove"></i></a></span>
-                                    <div class="messages msg_sent">
-                                        <p>I hope a boy.<br>I've got too much LEGO to play :)</p>
-                                        <time datetime="2009-11-13T20:00">Today • 45 min ago </time>
-                                    </div>
-                                </div>
-                              </div>
+
                         </div>
                         <div class="panel-footer">
                             <div class="input-group">
@@ -186,35 +137,7 @@
                 </div>
                 </div>
             </div>
-        </div>
-
-
-
-        <script type="text/javascript"> 
-        var counter = 1;
-        window.onkeypress = pressed;
-        function pressed(e){
-          key = e.keyCode || e.which;
-          if (key == 13) send_msg();
-        }
-
-        function send_msg() {
-          
-          var new_str = document.getElementById('btn-input').value;
-          document.getElementById('btn-input').value = null;
-          var newMessage = document.getElementById('chat-base');
-          var div = document.createElement("div");
-          var att = document.createAttribute("class");
-          att.value = "row msg_container base_sent";
-          div.setAttributeNode(att);
-          var ins_id = 10;
-          div.innerHTML = "<div class='col-md-2 col-divs-2 avatar'><img src='img/avatar_current_user.jpg' class='img-circled' width='55px'></div><div class='col-md-10 col-xs-10'><span class='pull-right'><a href='#''><i class='glyphicon glyphicon-pencil'></i></a><a href='#''><i class='glyphicon glyphicon-remove'></i></a></span><div class='messages msg_sent'><div id='new_msg_"+counter+"'>"+ new_str +"</div><time datetime='2009-11-13T20:00'>Today • 1 min ago</time></div></div>";
-          newMessage.appendChild(div);
-          counter++;
-        }
-
-        </script>
-
+          </div>
         </div><!--/span-->
 
         
@@ -241,6 +164,62 @@
 
     <!-- Le javascript
     ================================================== -->
+    <script type="text/javascript"> 
+        var counter = 1;
+        window.onkeypress = pressed;
+
+        function pressed(e){
+          key = e.keyCode || e.which;
+          if (key == 13) send_msg();
+        }
+        function send_msg() {
+          var new_str = document.getElementById('btn-input').value;
+          try{
+          if (new_str != "") throw""; else throw(1);
+          }
+          catch(e){
+            if (e == 1) new_str = "\nEmpty message!";
+          document.getElementById('btn-input').value = null;
+          var newMessage = document.getElementById('chat-base');
+          var div = document.createElement("div");
+          var att = document.createAttribute("class");
+          att.value = "row msg_container base_sent";
+          div.setAttributeNode(att);
+          var att2 = document.createAttribute('id');
+          att2.value = counter+"_base_sent";
+          div.setAttributeNode(att2);
+          div.innerHTML = "<div class='col-md-2 col-divs-2 avatar'><img src='img/avatar_current_user.jpg' class='img-circled' width='55px'></div><div class='col-md-10 col-xs-10'><span class='pull-right'><button class='btn2' id='btn-remove' onclick='delete_msg("+counter+")'><i class='glyphicon glyphicon-remove'></i></button><button class='btn2' id='btn-edit' onclick='edit_msg("+counter+")'><i class='glyphicon glyphicon-pencil'></i></button></span><div class='messages msg_sent'><div id='new_msg_"+counter+"'>"+ new_str +"</div><time class='timeago'> Less than a min ago</time></div></div>";
+          newMessage.appendChild(div);
+          counter++;
+          } 
+        }
+
+        function delete_msg(e){
+          var tmp_msg = document.getElementById(e + '_base_sent');
+          tmp_msg.innerHTML = "<center> <i class='glyphicon glyphicon-info-sign'></i> Message was removed. It can't be undone.</center>";
+
+        }
+        function edit_msg(e){
+          var eshka = e;
+          var tmp_msg = document.getElementById('new_msg_'+ e);
+          var new_str = tmp_msg.innerHTML;
+          tmp_msg.innerHTML = "<div class='input-group'><input id='btn-input-edit' type='text' class='form-control input-sm chat_input' placeholder='"+tmp_msg.innerHTML+"' /><span class='input-group-btn'><button class='btn btn-primary btn-sm' id='btn-edit' onclick='edit_msg_btn_down("+e+")'>Edit</button></span></div>";
+            document.getElementById('btn-input-edit').value = new_str;
+          }
+        function edit_msg_btn_down(e){
+          var edited_msg_text = document.getElementById('btn-input-edit').value;
+          try{
+          if (edited_msg_text != "") throw"";
+          }
+          catch(k){
+          var edited_msg = document.getElementById('new_msg_' + e);
+          edited_msg.innerHTML = edited_msg_text;
+          }
+        }
+        </script> 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="js/time.js" type="text/javascript"></script>
     <!-- Placed at the end of the document so the pages load faster -->
     <!--<script src="js/jquery.js" type="text/javascript"></script>
     <script src="js/bootstrap-transition.js" type="text/javascript"></script>
@@ -251,12 +230,12 @@
     <script src="js/bootstrap-scrollspy.js" type="text/javascript"></script>
     <script src="js/bootstrap-tab.js" type="text/javascript"></script>
     <script src="js/chat.js" type="text/javascript"></script>
-    <script src="js/bootstrap.js" type="text/javascript"></script>
+
     <script src="js/bootstrap-tooltip.js" type="text/javascript"></script>
     <script src="js/bootstrap-popover.js" type="text/javascript"></script>
     <script src="js/bootstrap-button.js" type="text/javascript"></script>
     <script src="js/bootstrap-collapse.js" type="text/javascript"></script>
     <script src="js/bootstrap-carousel.js" type="text/javascript"></script>
-    <script src="js/bootstrap-typeahead.js" type="text/javascript"></script>-->
+    <script src="js/bootstrap-typeahead.js" type="text/javascript"></script>
   </body>
 </html>
