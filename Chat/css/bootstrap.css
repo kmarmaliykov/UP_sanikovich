@@ -382,7 +382,7 @@ img {
 
 .glyphicon {
   position: relative;
-  top: 1px;
+  top: 3px;
   display: inline-block;
   font-family: 'Glyphicons Halflings';
   font-style: normal;
@@ -3185,14 +3185,14 @@ select[multiple].form-group-lg .form-control {
 }
 .btn {
   display: inline-block;
-  padding: 6px 12px;
-  margin-bottom: 0;
-  font-size: 14px;
+  padding-bottom: 2px;
+  font-size: 8px;
   font-weight: normal;
   line-height: 1.42857143;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
+
   -ms-touch-action: manipulation;
       touch-action: manipulation;
   cursor: pointer;
@@ -4986,7 +4986,7 @@ a.label:focus {
 }
 .btn .label {
   position: relative;
-  top: -1px;
+  border: none;
 }
 .label-default {
   background-color: #777;
@@ -5004,6 +5004,7 @@ a.label:focus {
 }
 .label-success {
   background-color: #5cb85c;
+  border:none;
 }
 .label-success[href]:hover,
 .label-success[href]:focus {
@@ -5025,6 +5026,7 @@ a.label:focus {
 }
 .label-danger {
   background-color: #d9534f;
+  border: none;
 }
 .label-danger[href]:hover,
 .label-danger[href]:focus {

@@ -2,12 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
     <title>Sun Chat BETA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="img/favicon.ico">
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
 
@@ -29,8 +32,10 @@
         }
       }
     </style>
-    <!-- Fav and touch icons -->
-    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
+    <script src="js/jquery.timeago.js" type="text/javascript"></script>
+    <script src="js/bootstrap.js" type="text/javascript"></script>
   </head>
 
   <body>
@@ -41,7 +46,7 @@
         <div class="col-md-3">
           <div class="well sidebar-nav">
             <img class="img-rounded" src="img/avatar_current_user.jpg" width="50%">
-            <p class="text-center">Logged in as <b>Vladislav Sanikovich </b><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a><br>Server connection: <span class="label label-success">Stable</span></p>
+            <p class="text-center">Logged in as: <b><text id='user_name'>Vladislav Sanikovich </text></b><button class='btn' id='btn-edit-name' onclick='edit_name()'><i class='glyphicon glyphicon-pencil'></i></button><br>Server connection: <button class="label label-success" id='server_status' onclick='isServerConnectionOk()'>Stable!</button></p>
             <!SEARCH>
             
             <!SEARCH>
@@ -120,7 +125,8 @@
                                     <div class="messages msg_receive">
                                         <p>Hey! What's up??<br>
                                             Dreaming about coding together with u :*</p>
-                                        <time datetime="2015-02-27T14:05">Today • 51 min ago</time>
+                                        <!--<time datetime="2015-02-27T14:05">Today • 51 min ago</time>-->
+                                        <time class="timeago"></time>
                                     </div>
                                 </div>
                             </div>
@@ -154,7 +160,7 @@
             </p>
             <blockquote>
               <p>Any fool can write a program which compiler understands. Good programmer write programs that other programmers will be able to understand.</p>
-              <small>Narkevich Max, <cite title="2015">SANNARK Corp.</cite></small>
+              <small>Narkevich Max, <cite title="2015">SANNARK Corp.</cite> </small>
             </blockquote>
           </div>
         </div><!--/span-->
@@ -164,6 +170,17 @@
 
     <!-- Le javascript
     ================================================== -->
+    <script type="text/javascript">
+ 
+        $(document).ready(function() {
+            $("time.timeago").attr("datetime", new Date())
+        });
+ 
+        jQuery(document).ready(function() {
+            jQuery("time.timeago").timeago();
+        });
+    </script>
+    
     <script type="text/javascript"> 
         var counter = 1;
         window.onkeypress = pressed;
@@ -188,10 +205,22 @@
           var att2 = document.createAttribute('id');
           att2.value = counter+"_base_sent";
           div.setAttributeNode(att2);
-          div.innerHTML = "<div class='col-md-2 col-divs-2 avatar'><img src='img/avatar_current_user.jpg' class='img-circled' width='55px'></div><div class='col-md-10 col-xs-10'><span class='pull-right'><button class='btn2' id='btn-remove' onclick='delete_msg("+counter+")'><i class='glyphicon glyphicon-remove'></i></button><button class='btn2' id='btn-edit' onclick='edit_msg("+counter+")'><i class='glyphicon glyphicon-pencil'></i></button></span><div class='messages msg_sent'><div id='new_msg_"+counter+"'>"+ new_str +"</div><time class='timeago'> Less than a min ago</time></div></div>";
+          div.innerHTML = "<div class='col-md-2 col-divs-2 avatar'><img src='img/avatar_current_user.jpg' class='img-circled' width='55px'></div><div class='col-md-10 col-xs-10'><span class='pull-right'><button class='btn2' id='btn-remove' onclick='delete_msg("+counter+")'><i class='glyphicon glyphicon-remove'></i></button><button class='btn2' id='btn-edit' onclick='edit_msg("+counter+")'><i class='glyphicon glyphicon-pencil'></i></button></span><div class='messages msg_sent'><div id='new_msg_"+counter+"'>"+ new_str +"</div><time class='timeago'></time></div></div>";
           newMessage.appendChild(div);
+          updateTimeStamps(div);
           counter++;
+
           } 
+        }
+
+        function updateTimeStamps(content) {
+            $(content).ready(function() {
+                $("time.timeago").attr("datetime", new Date())
+            });
+     
+            jQuery(content).ready(function() {
+                jQuery("time.timeago").timeago();
+            });
         }
 
         function delete_msg(e){
@@ -216,10 +245,33 @@
           edited_msg.innerHTML = edited_msg_text;
           }
         }
+        function edit_name(){
+          var tmp_name = document.getElementById('user_name');
+          var new_str = tmp_name.innerHTML;
+          tmp_name.innerHTML = "<div class='input-group'><input id='btn-name-edit' type='text' class='form-control input-sm chat_input' placeholder='"+tmp_name.innerHTML+"' /><span class='input-group-btn'><button class='btn btn-primary btn-sm' id='btn-edit' onclick='edit_name_confirm()'>Edit</button></span></div>";
+            document.getElementById('btn-name-edit').value = new_str;
+        }
+        function edit_name_confirm(){
+          var edited_name = document.getElementById('btn-name-edit').value;
+          try{
+          if (edited_name != "") throw"";
+          }
+          catch(k){
+          var edited_msg = document.getElementById('user_name');
+          edited_msg.innerHTML = edited_name +" ";
+          }
+        }
+        function isServerConnectionOk(){
+          if (1 == 1){
+            var t = document.getElementById('server_status');
+            t.innerHTML = 'Error!';
+            var att = document.createAttribute("class");
+            att.value = "label label-danger";
+            document.getElementById('server_status').setAttributeNode(att);
+          }
+        }
         </script> 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="js/bootstrap.js" type="text/javascript"></script>
-    <script src="js/time.js" type="text/javascript"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
     <!-- Placed at the end of the document so the pages load faster -->
     <!--<script src="js/jquery.js" type="text/javascript"></script>
     <script src="js/bootstrap-transition.js" type="text/javascript"></script>
@@ -236,6 +288,6 @@
     <script src="js/bootstrap-button.js" type="text/javascript"></script>
     <script src="js/bootstrap-collapse.js" type="text/javascript"></script>
     <script src="js/bootstrap-carousel.js" type="text/javascript"></script>
-    <script src="js/bootstrap-typeahead.js" type="text/javascript"></script>
+    <script src="js/bootstrap-typeahead.js" type="text/javascript"></script>-->
   </body>
 </html>
